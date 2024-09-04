@@ -12,7 +12,8 @@ export default class PostController  {
             })
         } catch (error) {
             return res.status(500).json({
-                message:"ошибка сервера"
+                message:"Failed to retrieve articles",
+                error:error || "Unknown error"
             })
         }   
     }
@@ -29,15 +30,15 @@ export default class PostController  {
         
             if (!updatedPost) {
                 return res.status(404).json({
-                    message: 'Статья не найдена',
+                    message: 'Crticle not found',
                 });
             }
         
             return res.json(updatedPost);
         } catch (error) {
-            console.error(error);
             return res.status(500).json({
-                message: 'Не удалось обновить статью',
+                message: 'Failed to retrieve one of the articles',
+                error:error || "Unknown error"
             });
         }
     }
@@ -62,7 +63,8 @@ export default class PostController  {
         } catch (error) {
             console.log(error)
             return res.status(500).json({
-                message:'Ошибка сервера'
+                message:'Failed to add an article',
+                error:error || "Unknown error"
             })
         }
     }
@@ -74,7 +76,7 @@ export default class PostController  {
 
             if(!deletePost){
                 return res.status(404).json({
-                    message:'Пост не найден'
+                    message:'Post not found'
                 })
             }
 
@@ -86,7 +88,8 @@ export default class PostController  {
         } catch (error) {
             console.log(error)
             return res.status(500).json({
-                message:'Ошибка сервера'
+                message:'Failed to delete an article',
+                error:error || "Unknown error"
             })
         }
     }
@@ -109,7 +112,7 @@ export default class PostController  {
         
             if (!updatedPost) {
                 return res.status(404).json({
-                    message: 'Не удалось найти статью',
+                    message: 'Could not find an article to update',
                 });
             }
         
@@ -120,7 +123,8 @@ export default class PostController  {
         } catch (error) {
             console.error(error);
             return res.status(500).json({
-                message: 'Ошибка сервера',
+                message: 'Failed to update on post',
+                error:error || "Unknown error"
             });
         }
     }

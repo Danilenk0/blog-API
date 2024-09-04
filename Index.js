@@ -7,12 +7,14 @@ import UserController from './controllers/UserController.js'
 import PostController from './controllers/PostController.js'
 import checkAuth from './utils/checkAuth.js'
 import multer from 'multer'
+import cors from 'cors'
 
 dotenv.config();
 
 const app = express();
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
+app.use(cors())
 
 const storage = multer.diskStorage({
     destination: (req, file, cb)=>{
@@ -43,14 +45,14 @@ app.post('/upload', (req, res)=>{
     })
 })
 
-app.post('/auth/register',registerValidation, handleValidationErrors, UserController.register)
+app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login)
-app.get('/auth/me', checkAuth, UserController.getMe)
+app.get('/auth/me',checkAuth, UserController.getMe)
 
-app.get('/posts/', checkAuth, PostController.all)
+app.get('/posts',checkAuth, PostController.all)
 app.get('/posts/:id',checkAuth, PostController.show)
 app.post('/posts',checkAuth, postCreateValidation, handleValidationErrors, PostController.store)
-app.patch('/posts/:id',checkAuth,postCreateValidation, handleValidationErrors, PostController.update)
+app.patch('/posts/:id',checkAuth, postCreateValidation, handleValidationErrors, PostController.update)
 app.delete('/posts/:id',checkAuth, PostController.remove)
 
 app.listen(process.env.PORT,(error)=>{

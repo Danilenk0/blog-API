@@ -1,7 +1,8 @@
 import { validationResult } from "express-validator";
 import UserModel from '../model/User.js'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import getToken from '../utils/getToken.js'
+
 
 export default class UserController {
 
@@ -21,15 +22,7 @@ export default class UserController {
 
             const user = await doc.save()
 
-            const token = jwt.sign({
-                    _id:user._id
-                },
-                'secret123',
-                {
-                    expiresIn:'30d'
-                }
-        
-            )
+            const token = getToken(user._id)
 
             return res.json({
                 success:true,
@@ -61,15 +54,7 @@ export default class UserController {
                 })
             }
 
-            const token = jwt.sign({
-                _id:user._id
-            },
-            'secret123',
-            {
-                expiresIn:'30d'
-            }
-    
-        )
+            const token = getToken(user._id)
 
         return res.json({
             success:true,
